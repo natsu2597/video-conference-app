@@ -7,7 +7,7 @@ import { serve } from "inngest/express";
 
 const app = express();
 
-const PORT = process.env.port || 5001;
+
 app.use(express.json()); // req.body
 app.use(clerkMiddleware()); // req.auth
 
