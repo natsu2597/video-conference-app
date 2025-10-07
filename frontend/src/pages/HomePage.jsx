@@ -4,8 +4,7 @@ import React from 'react'
 const HomePage = () => {
   return (
 
-    <div><UserButton />
-    User Button
+    <div className=''><UserButton />
     </div>
   )
 }
