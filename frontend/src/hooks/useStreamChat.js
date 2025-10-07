@@ -9,7 +9,7 @@ import {StreamChat} from "stream-chat";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
-export const useStream = () => {
+export const useStreamChat = () => {
     const { user } = useUser();
     const [chatClient, setChatClient ] = useState(null);
 
@@ -20,17 +20,29 @@ export const useStream = () => {
     });
 
     useEffect(() => {
+        
+        if(!tokenData.token || !user?.id || !STREAM_API_KEY) return;
+
+        const client = StreamChat.getInstance(STREAM_API_KEY);
+        let cancelled = false;
         const initChat = async () => {
-            if(!tokenData.token || !user) return;
+            
+            
+            
 
             try {
-                const client = StreamChat.getInstance(STREAM_API_KEY);
+                
                 await client.connectUser({
                     id : user.id,
                     name : user.fullName,
                     image : user.imageUrl
-                })
-                setChatClient(client);  
+                },
+            tokenData.token);
+
+            if(!cancelled){
+                setChatClient(client);
+            }
+                  
             } catch (error) {
                 console.error("Error Connecting to Stream");
                 Sentry.captureException(error, {
@@ -47,7 +59,8 @@ export const useStream = () => {
         initChat();
 
         return () => {
-            if(chatClient) chatClient.disconnectUser();
+            cancelled = true;
+            if(chatClient) client.disconnectUser();
         }
     },[tokenData, user, chatClient])
 
