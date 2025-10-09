@@ -30,7 +30,7 @@ function MemberModal({ members, onClose}){
                                     </span>
                                 </div>
                             )}
-                            <div className="text-sm font-medium text-gray-700 mb-1 text-white">
+                            <div className="text-sm font-medium text-gray-700 mb-1 ">
                                 {member.user.name || member.user.id}
                             </div>
                         </div>
