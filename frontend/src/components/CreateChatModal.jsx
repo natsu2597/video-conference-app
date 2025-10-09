@@ -174,7 +174,7 @@ const CreateChatModal = ({ onClose}) => {
                         <XIcon className="size-5" />
                     </button>
                 </div>
-                <form onSubmit={handleSubmit} className="create-channel-modal__form">
+                <form onSubmit={handleSubmit} className="create-channel-modal__form" id="create-channel-form" name="create-channel-form">
 
                     {/* Error */}
                     {error && (
