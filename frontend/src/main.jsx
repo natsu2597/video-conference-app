@@ -25,7 +25,7 @@ const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
   }
 
   Sentry.init({
-  dsn: "https://09e347b9c956e365104781d2db7dabf3@o4510135752392704.ingest.de.sentry.io/4510149219844176",
+  dsn: import.meta.env.VITE_SENTRY_DSN,
   integrations: [
     Sentry.reactRouterV7BrowserTracingIntegration({
       useEffect: React.useEffect,
