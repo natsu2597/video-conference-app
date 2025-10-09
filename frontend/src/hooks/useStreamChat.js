@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query"
 import { getStreamToken } from "../lib/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {StreamChat} from "stream-chat";
 
 
@@ -13,7 +13,7 @@ export const useStreamChat = () => {
     const { user } = useUser();
     const [chatClient, setChatClient ] = useState(null);
 
-    const {data: tokenData, isLoading : tokenLoading, error : tokenError} = useQuery({
+    const {data: tokenData, isLoading, error} = useQuery({
         queryKey : ["streamToken"],
         queryFn : getStreamToken,
         enabled : !!user?.id, 
@@ -21,7 +21,7 @@ export const useStreamChat = () => {
 
     useEffect(() => {
         
-        if(!tokenData.token || !user?.id || !STREAM_API_KEY) return;
+        if(!tokenData?.token || !user?.id || !STREAM_API_KEY) return;
 
         const client = StreamChat.getInstance(STREAM_API_KEY);
         let cancelled = false;
@@ -62,7 +62,7 @@ export const useStreamChat = () => {
             cancelled = true;
             if(chatClient) client.disconnectUser();
         }
-    },[tokenData, user, chatClient])
+    },[tokenData?.token, user?.id])
 
-    return {chatClient, isLoading:tokenLoading,error:tokenError}
+    return {chatClient, isLoading,error}
 }
